@@ -1,0 +1,14 @@
+Package: gcaltools
+Title: Download google calendar data to a usable data frame
+Version: 0.0.0.9000
+Authors@R: person("Emad", "Hasan", email = "emad@retina.ai", role = c("aut", "cre"))
+Description: This package is helpful for those who want to analyze where they are spending their time. It uses the helpful Google Auth and httr packages to accomplish this.  
+Depends: R (>= 3.4.4)
+License: MIT License
+Encoding: UTF-8
+LazyData: true
+Imports:
+    googleAuthR,
+    httr
+Suggests:
+    tidyverse
