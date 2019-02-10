@@ -28,10 +28,7 @@ set_token <- function(){
   options('googleAuthR.client_id' = Sys.getenv('GOOGLE_CLIENT_ID'))
   options('googleAuthR.client_secret' = Sys.getenv('GOOGLE_CLIENT_SECRET'))
   options('googleAuthR.webapp.client_id' = Sys.getenv('WEB_GOOGLE_CLIENT_ID'))
-  options('googleAuthR.webapp.client_secret' = Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET'))
-  options('googleAuthR.scopes.selected' = c("https://www.googleapis.com/auth/userinfo.email",
-                                            "https://www.googleapis.com/auth/userinfo.profile",
-                                            "https://www.googleapis.com/auth/calendar.readonly"))
+  options('googleAuthR.webapp.client_secret' = Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
   token <- googleAuthR::gar_auth()
   return(token)
 }
@@ -52,6 +49,10 @@ set_token <- function(){
 #' get_google_calendar_df(google_token)
 get_google_calendar_df <- function(google_token = set_token(),
                                    maxResults = 2000){
+
+  options('googleAuthR.scopes.selected' = c("https://www.googleapis.com/auth/userinfo.email",
+                                            "https://www.googleapis.com/auth/userinfo.profile",
+                                            "https://www.googleapis.com/auth/calendar.readonly"))
 
   min_date <- format(lubridate::as_datetime(Sys.Date()-2*365), "%Y-%m-%dT%H:%M:%SZ")
 
