@@ -9,6 +9,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     googleAuthR,
-    httr
+    httr,
+    magrittr
+    lubridate
 Suggests:
-    tidyverse
+RoxygenNote: 6.1.1

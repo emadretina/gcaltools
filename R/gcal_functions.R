@@ -13,24 +13,54 @@ unique.elements <- function(df) {
   return(ur)
 }
 
+#' Get Google Token Ready
+#'
+#' This function will get you started with a Google Token
+#' @import googleAuthR
+#' @import httr
+#' @export
+#' @examples
+#' set_token
+set_token <- function(){
+  options(httr_oauth_cache=T)
+  options(shiny.port = 1221)
+  try(source('load_env.R'), silent = T)
+  options('googleAuthR.client_id' = Sys.getenv('GOOGLE_CLIENT_ID'))
+  options('googleAuthR.client_secret' = Sys.getenv('GOOGLE_CLIENT_SECRET'))
+  options('googleAuthR.webapp.client_id' = Sys.getenv('WEB_GOOGLE_CLIENT_ID'))
+  options('googleAuthR.webapp.client_secret' = Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET'))
+  options('googleAuthR.scopes.selected' = c("https://www.googleapis.com/auth/userinfo.email",
+                                            "https://www.googleapis.com/auth/userinfo.profile",
+                                            "https://www.googleapis.com/auth/calendar.readonly"))
+  token <- googleAuthR::gar_auth()
+  return(token)
+}
+
 #' Get Calendar Data Function
 #'
 #' This fuction allows you to fetch Google calendar data
-#' @param Google Access Token
+#' @import googleAuthR
+#' @import httr
+#' @import tidyverse
+#' @import magrittr
+#' @import lubridate
+#' @param google_token - Google Access Token
 #' @param MaxResults Per Page set to 2500
 #' @keywords Google Calendar
 #' @export
 #' @examples
 #' get_google_calendar_df(google_token)
+get_google_calendar_df <- function(google_token = set_token(),
+                                   maxResults = 2000){
 
-get_google_calendar_df <- function(google_token = google_token,
-                                   maxResults = 2500){
+  min_date <- format(lubridate::as_datetime(Sys.Date()-2*365), "%Y-%m-%dT%H:%M:%SZ")
 
   url <- paste0("https://www.googleapis.com/calendar/v3/users/me/calendarList")
+  user_info <- GET('https://www.googleapis.com/oauth2/v3/userinfo', config(token = google_token))
   reqs <- GET(url, config(token = google_token))
   MyItems <- content(reqs)$items
-  cal <- sapply(1:length(MyItems), function(x) MyItems[[x]]$accessRole) == 'owner'
-  CalendarID <- MyItems[[which(cal)[2]]]$id
+  cal <- sapply(1:length(MyItems), function(x) MyItems[[x]]$id) == content(user_info)$email
+  CalendarID <- MyItems[[which(cal)[1]]]$id
   url <- paste0("https://www.googleapis.com/calendar/v3/users/me/calendarList")
   #MyItems <- content(req)$items
   Empty <- T
@@ -39,9 +69,9 @@ get_google_calendar_df <- function(google_token = google_token,
   Items <- NULL
   counter <- 0
   data_df <- NULL
-  while (Continue && counter < 200){
+  while (Continue && counter < 2000){
     if (Empty & NoToken){
-      url <- paste0("https://www.googleapis.com/calendar/v3/calendars/",CalendarID,"/events?maxResults=",maxResults,"&singleEvents=true")
+      url <- paste0("https://www.googleapis.com/calendar/v3/calendars/",CalendarID,"/events?timeMin=", URLencode(min_date, reserved = T) ,"&maxResults=",maxResults,"&singleEvents=true")
       req <- GET(url, config(token = google_token))
       MyItems <- content(req)$items
       Items <- c(Items,MyItems)
@@ -51,7 +81,7 @@ get_google_calendar_df <- function(google_token = google_token,
 
 
     } else if (!Empty & !NoToken){
-      url <- paste0("https://www.googleapis.com/calendar/v3/calendars/",CalendarID,"/events?maxResults=",maxResults,"&singleEvents=true&pageToken=",PageToken)
+      url <- paste0("https://www.googleapis.com/calendar/v3/calendars/",CalendarID,"/events?timeMin=", min_date,"&maxResults=",maxResults,"&singleEvents=true&pageToken=",PageToken)
       req <- GET(url, config(token = google_token))
       MyItems <- content(req)$items
       Items <- c(Items,MyItems)

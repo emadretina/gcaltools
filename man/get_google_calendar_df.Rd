@@ -4,10 +4,10 @@
 \alias{get_google_calendar_df}
 \title{Get Calendar Data Function}
 \usage{
-get_google_calendar_df(google_token = google_token, maxResults = 2500)
+get_google_calendar_df(google_token = set_token(), maxResults = 2500)
 }
 \arguments{
-\item{Google}{Access Token}
+\item{google_token}{- Google Access Token}
 
 \item{MaxResults}{Per Page set to 2500}
 }
