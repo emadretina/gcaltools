@@ -10,7 +10,7 @@ LazyData: true
 Imports:
     googleAuthR,
     httr,
-    magrittr
+    magrittr,
     lubridate
 Suggests:
 RoxygenNote: 6.1.1
