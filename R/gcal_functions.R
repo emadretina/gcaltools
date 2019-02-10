@@ -28,7 +28,8 @@ set_token <- function(){
   options('googleAuthR.client_id' = Sys.getenv('GOOGLE_CLIENT_ID'))
   options('googleAuthR.client_secret' = Sys.getenv('GOOGLE_CLIENT_SECRET'))
   options('googleAuthR.webapp.client_id' = Sys.getenv('WEB_GOOGLE_CLIENT_ID'))
-  options('googleAuthR.webapp.client_secret' = Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
+  options('googleAuthR.webapp.client_secret' = Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET'))
+
   token <- googleAuthR::gar_auth()
   return(token)
 }
