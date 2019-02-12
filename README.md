@@ -1,5 +1,6 @@
 # gcaltools
-Simple functions to download Google Calendar data. 
+
+Simple R library to download Google Calendar data for yourself. 
 
 ## Setup
 
