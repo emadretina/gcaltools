@@ -26,8 +26,11 @@ GOOGLE_CLIENT_SECRET = ugOr3434343sfdfdsdCPS55z7y
 
 ```
 devtools::install_github('emadretina/gcaltools')
-calendar_data_df <- gcaltools::get_google_calendar_df()
+calendar_data_list <- gcaltools::get_google_calendar_df()
 ```
 
+## Analyize 
+
+This will create a list with two data frames (1) People you met (2) your calendar events
 
 
