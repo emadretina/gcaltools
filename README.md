@@ -3,7 +3,7 @@ Simple functions to download Google Calendar data.
 
 ## Setup
 
-1. Go to `https://console.developers.google.com/apis` 
+1. Go to https://console.developers.google.com/apis
 2. Click on `Library` on the left menu
 3. Then search for `Google Calendar API`
 4. Turn on the API by going through `Enable API` (You may have to create a new project using the top bar on this page, after that you should be able to Enable the API).
