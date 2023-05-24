@@ -14,8 +14,8 @@ Simple R library to download Google Calendar data for yourself.
 
 ```
 
-GOOGLE_CLIENT_ID = 699555748731-3r345435345345lsdhfodisfj9nsbsidtg.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET = ugOr3434343sfdfdsdCPS55z7y
+GOOGLE_CLIENT_ID = 9555748731-3r345435345345lsdhfodisfj9nsbsidtg.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET = ugOr3434343sfdfdsdCPS5
 
 
 ```
